@@ -1,0 +1,32 @@
+<div class="text-center">
+  <form name="loginForm" ng-submit="join.submitForm()">
+    <h2 class="form-signin-heading">JOIN</h2>
+
+    <div class="form-content">
+
+    <div class="form-line">
+      <label for="inputName" class="sr-only">NAME</label>
+      <input type="text" id="inputName" class="form-control" placeholder="NAME" required autofocus ng-model="join.formObj.user.name">
+    </div>
+
+    <div class="form-line">
+      <label for="inputEmail" class="sr-only">EMAIL</label>
+      <input type="text" id="inputEmail" class="form-control" placeholder="EMAIL" required ng-model="join.formObj.user.email">
+    </div>
+
+    <div class="form-line">
+      <label for="inputPassword" class="sr-only">PASSWORD</label>
+      <input type="password" id="inputPassword" class="form-control" placeholder="PASSWORD" required ng-model="join.formObj.user.password">
+    </div>
+
+    <div class="form-line">
+      <input class="btn btn-lg btn-primary btn-block" type="submit" value="REGISTER"/>
+    </div>
+
+    </div>
+  </form>
+
+  <div class="">
+    <a ui-sref="root.login">Login</a>
+  </div>
+</div>

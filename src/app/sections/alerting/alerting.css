@@ -1,0 +1,41 @@
+.alert {
+  width: 100%;
+
+  font-size: 18px;
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+.alert-success {
+  padding: 10px 20px 10px 20px;
+  background: #0F0;
+  height: 20px;
+}
+
+.alert-info {
+  padding: 10px 20px 10px 20px;
+  background: #0FF;
+  height: 20px;
+}
+
+.alert-warning {
+  padding: 10px 20px 10px 20px;
+  background: #FF0;
+  height: 20px;
+}
+
+.alert-danger {
+  padding: 10px 20px 10px 20px;
+  background: #F00;
+  height: 20px;
+}
+
+.alert button {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 18px;
+}
+
+.alert button {
+  cursor: pointer;
+}

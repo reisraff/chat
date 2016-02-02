@@ -1,0 +1,14 @@
+{
+  "name": "src-backend",
+  "version": "1.0.0",
+  "description": "Its the backend project for the chat",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rafael Reis",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
