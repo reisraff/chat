@@ -10,7 +10,9 @@ angular.module('app').run(
     Restangular,
     CommunicationUserService,
     MessagingService,
-    CommunicationEvents
+    CommunicationEvents,
+    CommunicationErrors,
+    AlertingService
   ) {
     Restangular.addRequestInterceptor(function (element) {
       ngProgress.start();
@@ -18,7 +20,8 @@ angular.module('app').run(
       return element;
     });
 
-    Restangular.addResponseInterceptor(function (data) {
+    Restangular.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
+      // console.log('LOG: ' + data, operation, what, url, response, deferred);
       ngProgress.complete();
 
       return data;
@@ -45,7 +48,8 @@ angular.module('app').run(
 
       try {
         if (response.status === 400) {
-          console.warn('Oops, looks like something went wrong here.\nPlease try your request again later.\n\nError Code: ' + response.data.type + '/' + response.data.title);
+          AlertingService.danger(CommunicationErrors[response.data.data.code]);
+          console.warn('Oops, looks like something went wrong here.\nPlease try your request again later.\n\nError Code: ' + response.data.data.code + '/' + response.data.data.error);
         }
       } catch (error) {
         console.warn('Unknown error');

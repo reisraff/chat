@@ -7,8 +7,7 @@ angular.module('app').service(
     this.register = function (authData) {
       var events = {};
 
-      events.complete = MessagingService.subscribe(CommunicationEvents.user._REGISTER_COMPLETE_, function (res) {
-        console.log(res);
+      events.complete = MessagingService.subscribe(CommunicationEvents.user._REGISTER_COMPLETE_, function () {
         MessagingService.unsubscribe(events.fail);
         AlertingService.success('Register successfully');
         $state.go('root.login');
@@ -16,7 +15,6 @@ angular.module('app').service(
 
       events.fail = MessagingService.subscribe(CommunicationEvents.user._REGISTER_FAIL_, function () {
         MessagingService.unsubscribe(events.complete);
-        AlertingService.danger('Register unsuccessfully');
       }, true);
 
       MessagingService.publish(
