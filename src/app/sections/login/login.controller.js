@@ -7,7 +7,7 @@ angular.module('app').controller(
     var _self = this;
 
     _self.formObj = {
-      administrator : {
+      user : {
         user: null,
         password: null
       }

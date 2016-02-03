@@ -32,9 +32,9 @@ angular.module('app.communication').service(
         function (res) {
           _self.user.setData(res);
           MessagingService.publish(CommunicationEvents.user._SYNCED_);
-          LocalStorage.set('nf.logged.user', _self.user.getJsonData());
+          LocalStorage.set('chat.logged.user', _self.user.getJsonData());
           Restangular.setDefaultHeaders({
-            'Authorization': _self.user.token
+            'Authorization': _self.user.authorization
           });
           MessagingService.publish(
             CommunicationEvents.user._AUTHENTICATE_COMPLETE_,
@@ -72,10 +72,10 @@ angular.module('app.communication').service(
     this.logout = function () {
       MessagingService.publish(CommunicationEvents.user._LOGOUT_START_);
 
-      LocalStorage.remove('nf.logged.user');
+      LocalStorage.remove('chat.logged.user');
       _self.user.clearData();
       MessagingService.publish(CommunicationEvents.user._SYNCED_);
-      if (! _self.getUser().token) {
+      if (! _self.getUser().authorization) {
         MessagingService.publish(CommunicationEvents.user._LOGOUT_COMPLETE_);
       } else {
         MessagingService.publish(CommunicationEvents.user._LOGOUT_FAIL_, ['Error']);
@@ -83,10 +83,10 @@ angular.module('app.communication').service(
     };
 
     this.getUser = function () {
-      if (!! _self.user.token) {
+      if (!! _self.user.authorization) {
         return _self.user.getJsonObj();
-      } else if (LocalStorage.get('nf.logged.user')) {
-        return LocalStorage.getObject('nf.logged.user');
+      } else if (LocalStorage.get('chat.logged.user')) {
+        return LocalStorage.getObject('chat.logged.user');
       } else {
         return _self.user.getJsonObj();
       }
@@ -96,20 +96,14 @@ angular.module('app.communication').service(
 .value(
   'User',
   function User () {
-    this.guid = null;
-    this.token = null;
+    this.authorization = null;
     this.name = null;
-    this.user = null;
-    this.groups = [];
-    this.permissions = [];
+    this.email = null;
 
     this.setData = function (data) {
-      this.guid = data.data.guid;
-      this.token = data.data.token;
+      this.authorization = data.data.authorization;
       this.name = data.data.name;
-      this.user = data.data.user;
-      this.groups = data.data.groups;
-      this.permissions = data.data.permissions;
+      this.email = data.data.email;
     };
 
     this.clearData = function () {
@@ -122,23 +116,17 @@ angular.module('app.communication').service(
 
     this.getJsonData = function () {
       return JSON.stringify({
-        guid: this.guid,
-        token: this.token,
+        authorization: this.authorization,
         name: this.name,
-        user: this.user,
-        groups: this.groups,
-        permissions: this.permissions
+        email: this.email
       });
     };
 
     this.getJsonObj = function () {
       return {
-        guid: this.guid,
-        token: this.token,
+        authorization: this.authorization,
         name: this.name,
-        user: this.user,
-        groups: this.groups,
-        permissions: this.permissions
+        email: this.email
       };
     };
   }

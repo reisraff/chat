@@ -32,22 +32,22 @@ angular.module('app').run(
       if (response.status === 401 && response.status === 403) {
         var events = {};
 
-        events.complete = MessagingService.subscribe(CommunicationEvents.administrator._LOGOUT_COMPLETE_, function () {
+        events.complete = MessagingService.subscribe(CommunicationEvents.user._LOGOUT_COMPLETE_, function () {
           MessagingService.unsubscribe(events.fail);
           $state.go('root.login');
         }, true);
 
-        events.fail = MessagingService.subscribe(CommunicationEvents.administrator._LOGOUT_FAIL_, function () {
+        events.fail = MessagingService.subscribe(CommunicationEvents.user._LOGOUT_FAIL_, function () {
           MessagingService.unsubscribe(events.complete);
         }, true);
 
-        MessagingService.publish(CommunicationEvents.administrator._LOGOUT_);
+        MessagingService.publish(CommunicationEvents.user._LOGOUT_);
 
         return false;
       }
 
       try {
-        if (response.status === 400) {
+        if (response.status === 400 || response.status === 404) {
           AlertingService.danger(CommunicationErrors[response.data.data.code]);
           console.warn('Oops, looks like something went wrong here.\nPlease try your request again later.\n\nError Code: ' + response.data.data.code + '/' + response.data.data.error);
         }

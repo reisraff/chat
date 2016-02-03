@@ -2,7 +2,9 @@
   "name": "chatFront",
   "version": "0.0.0",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.14.2",
+    "crypto": "0.0.3",
     "mongoose": "^4.3.7"
   },
   "scripts": {

@@ -3,14 +3,14 @@
 angular.module('app').config(
   /* @ngInject */
   function($stateProvider, $urlRouterProvider) {
-    var CheckIsLoggedIn = function (administrator, params, location) {
-      if (administrator.token && (! location || location === '/root/')) {
+    var CheckIsLoggedIn = function (user, params, location) {
+      if (user.authorization && (! location || location === '/root/')) {
         return {to: 'root.home', params: params};
       }
     };
 
-    var CheckIsNotLoggedIn = function (administrator, params, location) {
-      if (! administrator.token) {
+    var CheckIsNotLoggedIn = function (user, params, location) {
+      if (! user.authorization) {
         return {to: 'root.login', params: {redirect: location}};
       }
     };

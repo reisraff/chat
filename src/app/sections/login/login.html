@@ -5,13 +5,13 @@
     <div class="form-content">
 
     <div class="form-line">
-      <label for="inputUser" class="sr-only">USER</label>
-      <input type="text" id="inputUser" class="form-control" placeholder="USER" required="" autofocus="" ng-model="login.formObj.administrator.user">
+      <label for="inputEmail" class="sr-only">EMAIL</label>
+      <input type="text" id="inputEmail" class="form-control" placeholder="EMAIL" required autofocus ng-model="login.formObj.user.email">
     </div>
 
     <div class="form-line">
       <label for="inputPassword" class="sr-only">PASSWORD</label>
-      <input type="password" id="inputPassword" class="form-control" placeholder="PASSWORD" required="" ng-model="login.formObj.administrator.password">
+      <input type="password" id="inputPassword" class="form-control" placeholder="PASSWORD" required ng-model="login.formObj.user.password">
     </div>
 
     <div class="form-line">
@@ -21,7 +21,7 @@
     </div>
   </form>
 
-  <div class="">
+  <div>
     <a ui-sref="root.join">Do you still haven't an account?</a>
   </div>
 </div>

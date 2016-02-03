@@ -5,6 +5,6 @@ angular.module('app').controller(
   /* @ngInject */
   function (HomeService) {
     var _self = this;
-    _self.administrator = HomeService.getAdministrator();
+    _self.user = HomeService.getUser();
   }
 );

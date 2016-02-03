@@ -3,7 +3,12 @@
 // Dependences
 var express = require('express');
 var app = express();
+
 var bodyParser = require('body-parser')
+
+var bcrypt = require('bcrypt-nodejs');
+var crypto = require('crypto');
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
@@ -44,7 +49,14 @@ app.post('/api/chat/user/register', function (req, res) {
     var json = req.body;
 
     if (! json.user) {
-      res.status(400).end();
+      var response = {
+        data : {
+          error : 'Invalid Request',
+          code : '0002'
+        }
+      };
+
+      res.status(400).send(response);
     } else {
       var User = mongoose.model('User');
 
@@ -67,7 +79,7 @@ app.post('/api/chat/user/register', function (req, res) {
         var user = new User({
           name: json.user.name,
           email: json.user.email,
-          password: json.user.password
+          password: bcrypt.hashSync(json.user.password)
         });
 
         user.save(function (err) {
@@ -77,6 +89,72 @@ app.post('/api/chat/user/register', function (req, res) {
         });
 
         return res.status(200).end();
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).end();
+  }
+});
+
+app.post('/api/chat/user/login', function (req, res) {
+  try {
+    var json = req.body;
+
+    if (! json.user) {
+      var response = {
+        data : {
+          error : 'Invalid Request',
+          code : '0002'
+        }
+      };
+
+      res.status(400).send(response);
+    } else {
+      var User = mongoose.model('User');
+
+      User.findOne({ 'email': json.user.email }, 'email password', function (err, user) {
+        if (err) {
+          return err;
+        }
+
+        if (! user) {
+          var response = {
+            data : {
+              error : 'Email Invalid',
+              code : '0003'
+            }
+          };
+
+          return res.status(404).send(response);
+        } else {
+          if (bcrypt.compareSync(json.user.password, user.password)) {
+            var authorizationHash = crypto.createHash('md5').update(new Date().getTime().toString()).digest('hex');
+
+            user.authorization = authorizationHash;
+            user.save();
+
+            var response = {
+              data : {
+                name: user.name,
+                email: user.email,
+                authorization: authorizationHash
+              }
+            };
+
+            return res.status(200).send(response);
+          } else {
+            var response = {
+              data : {
+                error : 'Wrong Password',
+                code : '0004'
+              }
+            };
+
+            return res.status(404).send(response);
+          }
+        }
+
       });
     }
   } catch (err) {

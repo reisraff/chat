@@ -4,7 +4,7 @@ angular.module('app').service(
   /* @ngInject */
   'NavbarService',
   function ($state, CommunicationUserService, MessagingService, CommunicationEvents, AlertingService) {
-    this.getAdministrator = function () {
+    this.getUser = function () {
       return CommunicationUserService.getUser();
     };
 

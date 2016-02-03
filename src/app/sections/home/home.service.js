@@ -3,9 +3,9 @@
 angular.module('app').service(
   'HomeService',
   /* @ngInject */
-  function (CommunicationAdministratorService) {
-    this.getAdministrator = function () {
-      return CommunicationAdministratorService.getAdministrator();
+  function (CommunicationUserService) {
+    this.getUser = function () {
+      return CommunicationUserService.getUser();
     };
   }
 );

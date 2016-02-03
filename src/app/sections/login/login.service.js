@@ -7,19 +7,18 @@ angular.module('app').service(
     this.authenticate = function (authData) {
       var events = {};
 
-      events.complete = MessagingService.subscribe(CommunicationEvents.administrator._AUTHENTICATE_COMPLETE_, function () {
+      events.complete = MessagingService.subscribe(CommunicationEvents.user._AUTHENTICATE_COMPLETE_, function () {
         MessagingService.unsubscribe(events.fail);
         AlertingService.success('Login successfully');
         $state.go('root.home');
       }, true);
 
-      events.fail = MessagingService.subscribe(CommunicationEvents.administrator._AUTHENTICATE_FAIL_, function () {
+      events.fail = MessagingService.subscribe(CommunicationEvents.user._AUTHENTICATE_FAIL_, function () {
         MessagingService.unsubscribe(events.complete);
-        AlertingService.danger('Authentication dained.');
       }, true);
 
       MessagingService.publish(
-        CommunicationEvents.administrator._AUTHENTICATE_,
+        CommunicationEvents.user._AUTHENTICATE_,
         [authData]
       );
     };
