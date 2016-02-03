@@ -46,6 +46,7 @@ mongoose.connect('mongodb://localhost/chat');
 // Require of all entities
 require('./entity/user.js').up(Schema, mongoose);
 require('./entity/room.js').up(Schema, mongoose);
+require('./entity/message.js').up(Schema, mongoose);
 
 // Routing
 app.get('/', function (req, res) {
@@ -266,6 +267,72 @@ app.get('/api/chat/room', function (req, res) {
 
           return res.status(200).send(response);
         });
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).end();
+  }
+});
+
+app.get('/api/chat/room/:room', function (req, res) {
+  try {
+    if (! req.headers['authorization']) {
+      res.status(403).send();
+    } else {
+      var User = mongoose.model('User');
+      User.findOne({ 'authorization': req.headers['authorization'].trim() }, 'name', function (err, user) {
+        if (err) {
+          return err;
+        }
+
+        if (! user) {
+          return res.status(403).send();
+        }
+
+        if (! req.params.room) {
+            var response = {
+              data : {
+                error : 'Invalid Request',
+                code : '0002'
+              }
+            };
+
+            return res.status(400).send(response);
+        } else {
+          var roomName = req.params.room;
+          var Room = mongoose.model('Room');
+          var Message = mongoose.model('Message');
+
+          Room.findOne({ name : roomName }, 'name description', function (err, room) {
+            if (err) {
+              return err;
+            }
+
+            if (! room) {
+              var response = {
+                data : {
+                  error : 'Room Does not exists',
+                  code : '0006'
+                }
+              };
+
+              return res.status(400).send(response);
+            } else {
+              Message.find({ roomId: room._id }, 'message', function(err, messages) {
+                var response = {
+                  data : {
+                    name: room.name,
+                    description: room.description,
+                    messages: messages
+                  }
+                };
+
+                return res.status(200).send(response);
+              })
+            }
+          });
+        }
       });
     }
   } catch (err) {

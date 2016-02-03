@@ -27,15 +27,20 @@ angular.module('app.communication').constant(
       _SYNCED_ : '_SYNCED_'
     },
     room : {
-      _CREATE_ : '_CREATE',
+      _CREATE_ : '_CREATE_',
       _CREATE_START_ : '_CREATE_START_',
       _CREATE_COMPLETE_ : '_CREATE_COMPLETE_',
       _CREATE_FAIL_ : '_CREATE_FAIL_',
 
-      _LIST_ : '_LIST',
+      _LIST_ : '_LIST_',
       _LIST_START_ : '_LIST_START_',
       _LIST_COMPLETE_ : '_LIST_COMPLETE_',
-      _LIST_FAIL_ : '_LIST_FAIL_'
+      _LIST_FAIL_ : '_LIST_FAIL_',
+
+      _GET_ : '_GET_',
+      _GET_START_ : '_GET_START_',
+      _GET_COMPLETE_ : '_GET_COMPLETE_',
+      _GET_FAIL_ : '_GET_FAIL_'
     }
   }
 );

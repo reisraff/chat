@@ -120,6 +120,20 @@ angular.module('app').config(
             rule: CheckIsNotLoggedIn
           }
         }
+      },
+      {
+        stateName : 'root.home.room',
+        stateData : {
+          resolve: {},
+          url: '/chat/:room',
+          views : {
+            'conversation' : conversation,
+            'rooms' : rooms
+          },
+          'data': {
+            rule: CheckIsNotLoggedIn
+          }
+        }
       }
     ];
 

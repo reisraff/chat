@@ -16,6 +16,11 @@ angular.module('app.communication').service(
         CommunicationEvents.room._LIST_,
         _self.list
       );
+
+      MessagingService.subscribe(
+        CommunicationEvents.room._GET_,
+        _self.get
+      );
     };
 
     this.create = function (data) {
@@ -65,6 +70,30 @@ angular.module('app.communication').service(
       );
     };
 
+    this.get = function (roomName) {
+      MessagingService.publish(CommunicationEvents.room._GET_START_);
+      Restangular.one('chat/room').one(roomName).get().then(
+        function (res) {
+          var room = new Room();
+          room.setData(res);
+
+          console.log(res.data);
+          console.log(room.getJsonObj());
+
+          MessagingService.publish(
+            CommunicationEvents.room._GET_COMPLETE_,
+            [room.getJsonObj()]
+          );
+        },
+        function (err) {
+          MessagingService.publish(
+            CommunicationEvents.room._GET_FAIL_,
+            [err]
+          );
+        }
+      );
+    };
+
   }
 )
 .value(
@@ -72,10 +101,12 @@ angular.module('app.communication').service(
   function Room () {
     this.name = null;
     this.description = null;
+    this.messages = [];
 
     this.setData = function (data) {
       this.name = data.data.name;
       this.description = data.data.description;
+      this.messages = data.data.messages;
     };
 
     this.clearData = function () {
@@ -89,14 +120,16 @@ angular.module('app.communication').service(
     this.getJsonData = function () {
       return JSON.stringify({
         name: this.name,
-        description: this.description
+        description: this.description,
+        messages: this.messages
       });
     };
 
     this.getJsonObj = function () {
       return {
         name: this.name,
-        description: this.description
+        description: this.description,
+        messages: this.messages
       };
     };
   }

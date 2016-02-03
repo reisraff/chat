@@ -1,6 +1,5 @@
 <div class="rooms left">
 
-
   <div class="add-room">
     <form name="formRoom" ng-submit="rooms.formSubmit()">
       <input type="text" placeholder="Chat Name" ng-model="rooms.formObj.room.name" required autofocus/>
@@ -11,19 +10,21 @@
 
   <div class="list-rooms">
 
-    <div class="room" ng-repeat="room in rooms.rooms">
+    <div class="room" ng-repeat="room in rooms.rooms" >
       <div class="room-content">
         <div class="room-name"># {{ room.name }}</div>
 
         - {{ room.description }}
       </div>
       <div class="room-options">
-        <a href="javascript://">Edit</a>
+        <a href="javascript://" ui-sref="root.home.room({ room: room.name })">Join</a>
+        <!-- <a href="javascript://">Edit</a> -->
         <a href="javascript://">Delete</a>
       </div>
     </div>
 
   </div>
+
 </div>
 
 
