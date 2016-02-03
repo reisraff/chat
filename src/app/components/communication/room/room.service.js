@@ -76,10 +76,6 @@ angular.module('app.communication').service(
         function (res) {
           var room = new Room();
           room.setData(res);
-
-          console.log(res.data);
-          console.log(room.getJsonObj());
-
           MessagingService.publish(
             CommunicationEvents.room._GET_COMPLETE_,
             [room.getJsonObj()]

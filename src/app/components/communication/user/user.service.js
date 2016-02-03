@@ -54,7 +54,6 @@ angular.module('app.communication').service(
       MessagingService.publish(CommunicationEvents.user._REGISTER_START_);
       Restangular.one('chat/user').post('register', authData).then(
         function (res) {
-          console.log(res);
           MessagingService.publish(
             CommunicationEvents.user._REGISTER_COMPLETE_,
             [res]
