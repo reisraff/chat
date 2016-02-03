@@ -113,7 +113,7 @@ app.post('/api/chat/user/login', function (req, res) {
     } else {
       var User = mongoose.model('User');
 
-      User.findOne({ 'email': json.user.email }, 'email password', function (err, user) {
+      User.findOne({ 'email': json.user.email }, 'name email password', function (err, user) {
         if (err) {
           return err;
         }
