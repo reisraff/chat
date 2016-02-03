@@ -13,6 +13,22 @@ body {
   color: #333;
 }
 
+a:link {
+  color: #000;
+}
+
+a:hover {
+  color: #444;
+}
+
+a:active {
+  color: #666;
+}
+
+a:visited {
+  color: #666;
+}
+
 .navbar {
   min-height: 24px;
   background: #333;
@@ -21,6 +37,10 @@ body {
   font-size: 20px;
   font-weight: bold;
   color: #fff;
+}
+
+.fill-width {
+  width: 100% !important;
 }
 
 .container {
@@ -38,16 +58,20 @@ body {
   min-height: 78px;
 }
 
+.half {
+  width: 50%;
+}
+
 input {
   display: block;
   margin: 0;
-  width: 100%;
+  width: 96%;
   font-family: sans-serif;
   font-size: 18px;
   appearance: none;
   box-shadow: none;
 
-  padding: 10px;
+  padding: 2%;
   border: none;
   border-bottom: solid 2px #c9c9c9;
   transition: border 0.3s;
@@ -86,20 +110,21 @@ input:focus {
   cursor: pointer;
 }
 
-a:link {
-  color: #000;
+.navbar-container a:link {
+  color: #FFF !important;
+  text-decoration: none;
 }
 
-a:hover {
-  color: #444;
+.navbar-container a:hover {
+  color: #AAA !important;
 }
 
-a:active {
-  color: #666;
+.navbar-container a:active {
+  color: #CCC !important;
 }
 
-a:visited {
-  color: #666;
+.navbar-container a:visited {
+  color: #AAA !important;
 }
 
 .navbar-container {

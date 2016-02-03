@@ -18,6 +18,7 @@ mongoose.connect('mongodb://localhost/chat');
 
 // Require of all entities
 require('./entity/user.js').up(Schema, mongoose);
+require('./entity/room.js').up(Schema, mongoose);
 
 // App configuration
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -162,6 +163,59 @@ app.post('/api/chat/user/login', function (req, res) {
     res.status(500).end();
   }
 });
+
+app.post('/api/chat/room', function (req, res) {
+  try {
+    var json = req.body;
+
+    if (! json.room) {
+      var response = {
+        data : {
+          error : 'Invalid Request',
+          code : '0002'
+        }
+      };
+
+      res.status(400).send(response);
+    } else {
+      var Room = mongoose.model('Room');
+
+      Room.findOne({ 'name': json.room.name }, 'name', function (err, room) {
+        if (err) {
+          return err;
+        }
+
+        if (room) {
+          var response = {
+            data : {
+              error : 'Room already exists',
+              code : '0005' // check
+            }
+          };
+
+          return res.status(400).send(response);
+        }
+
+        var room = new Room({
+          name: json.room.name,
+          description: json.room.description
+        });
+
+        room.save(function (err) {
+          if (err) {
+            throw new "Save Failed";
+          }
+        });
+
+        return res.status(200).end();
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).end();
+  }
+});
+
 
 app.listen(3002, function () {
   console.log('Example app listening on port 3002!');

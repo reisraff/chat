@@ -4,8 +4,8 @@ angular.module('app').config(
   /* @ngInject */
   function($stateProvider, $urlRouterProvider) {
     var CheckIsLoggedIn = function (user, params, location) {
-      if (user.authorization && (! location || location === '/root/')) {
-        return {to: 'root.home', params: params};
+      if (user.authorization && (! location || location === '/root/' || location === '/root/home')) {
+        return {to: 'root.home.chat', params: params};
       }
     };
 
@@ -25,6 +25,18 @@ angular.module('app').config(
       templateUrl: 'app/sections/alerting/alerting.html',
       controller: 'AlertingController',
       controllerAs: 'alert'
+    };
+
+    var rooms = {
+      templateUrl: 'app/sections/chat/rooms/rooms.html',
+      controller: 'RoomsController',
+      controllerAs: 'rooms'
+    };
+
+    var conversation = {
+      templateUrl: 'app/sections/chat/conversation/conversation.html',
+      controller: 'ConversationController',
+      controllerAs: 'conversation'
     };
 
     var footer = {
@@ -79,6 +91,7 @@ angular.module('app').config(
       },
       {
         stateName : 'root.home',
+        abstract: true,
         stateData : {
           resolve: {},
           url: '/home',
@@ -88,6 +101,20 @@ angular.module('app').config(
               controller: 'HomeController',
               controllerAs: 'home'
             }
+          },
+          'data': {
+            rule: CheckIsLoggedIn
+          }
+        }
+      },
+      {
+        stateName : 'root.home.chat',
+        stateData : {
+          resolve: {},
+          url: '/chat',
+          views : {
+            'conversation' : conversation,
+            'rooms' : rooms
           },
           'data': {
             rule: CheckIsNotLoggedIn

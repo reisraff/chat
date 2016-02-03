@@ -4,8 +4,8 @@
       Chat
     </div>
 
-    <div class="right">
-      <!-- <a href="javascript://">Join</a> | <a href="javascript://">Login</a> -->
+    <div class="right" ng-show="nav.user.logged">
+      <a href="javascript://" ng-click="nav.logout()">Logout</a>
     </div>
   </div>
 </nav>

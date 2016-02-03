@@ -2,7 +2,11 @@
 
 angular.module('app.communication').run(
   /* @ngInject */
-  function (CommunicationUserService) {
+  function (
+    CommunicationUserService,
+    CommunicationRoomService
+  ) {
     CommunicationUserService.initialize();
+    CommunicationRoomService.initialize();
   }
 );

@@ -1,0 +1,39 @@
+<div class="rooms left">
+
+
+  <div class="add-room">
+    <form name="formRoom" ng-submit="rooms.formSubmit()">
+      <input type="text" placeholder="Chat Name" ng-model="rooms.formObj.room.name" required autofocus/>
+      <input type="text" placeholder="Chat Small Description" ng-model="rooms.formObj.room.description" required/>
+      <input type="submit" class="fill-width" value="{{ rooms.buttonValue }}"/>
+    </form>
+  </div>
+
+  <div class="list-rooms">
+
+    <div class="room">
+      <p>#Friends</p>
+
+      - This room is in order to chat about everything
+    </div>
+    <div class="room">
+      <p>#Friends</p>
+
+      - This room is in order to chat about everything
+    </div>
+    <div class="room">
+      <p>#Friends</p>
+
+      - This room is in order to chat about everything
+    </div>
+    <div class="room">
+      <p>#Friends</p>
+
+      - This room is in order to chat about everything
+    </div>
+
+  </div>
+</div>
+
+
+

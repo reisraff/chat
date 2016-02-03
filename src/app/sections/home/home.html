@@ -1,8 +1,6 @@
-<div class="jumbotron" ng-controller="HomeController as home">
-  <p class="text-center">
-    Welcome You are logged!
-  </p>
-
-  <br />
-  <pre>{{ home.user | json }}</pre>
+<div class="chat">
+  <div class="chat-container">
+    <div ui-view="rooms"></div>
+    <div ui-view="conversation"></div>
+  </div>
 </div>

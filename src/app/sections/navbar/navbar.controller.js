@@ -6,13 +6,13 @@ angular.module('app').controller(
   function (NavbarService, MessagingService, CommunicationEvents) {
     var _self = this;
     _self.user = NavbarService.getUser();
-    _self.user.logged = !! _self.user.token ? true : false;
+    _self.user.logged = !! _self.user.authorization ? true : false;
 
     MessagingService.subscribe(
       CommunicationEvents.user._SYNCED_,
       function () {
         _self.user = NavbarService.getUser();
-        _self.user.logged = !! _self.user.token ? true : false;
+        _self.user.logged = !! _self.user.authorization ? true : false;
       }
     );
 

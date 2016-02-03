@@ -25,6 +25,12 @@ angular.module('app.communication').constant(
       _LOGOUT_FAIL_ : '_LOGOUT_FAIL_',
 
       _SYNCED_ : '_SYNCED_'
+    },
+    room : {
+      _CREATE_ : '_CREATE',
+      _CREATE_START_ : '_CREATE_START_',
+      _CREATE_COMPLETE_ : '_CREATE_COMPLETE_',
+      _CREATE_FAIL_ : '_CREATE_FAIL_'
     }
   }
 );
