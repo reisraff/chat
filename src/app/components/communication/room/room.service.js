@@ -21,6 +21,11 @@ angular.module('app.communication').service(
         CommunicationEvents.room._GET_,
         _self.get
       );
+
+      MessagingService.subscribe(
+        CommunicationEvents.room._DELETE_,
+        _self.delete
+      );
     };
 
     this.create = function (data) {
@@ -84,6 +89,24 @@ angular.module('app.communication').service(
         function (err) {
           MessagingService.publish(
             CommunicationEvents.room._GET_FAIL_,
+            [err]
+          );
+        }
+      );
+    };
+
+    this.delete = function (roomName) {
+      MessagingService.publish(CommunicationEvents.room._DELETE_START_);
+      Restangular.one('chat/room').one(roomName).remove().then(
+        function () {
+          MessagingService.publish(
+            CommunicationEvents.room._DELETE_COMPLETE_,
+            []
+          );
+        },
+        function (err) {
+          MessagingService.publish(
+            CommunicationEvents.room._DELETE_FAIL_,
             [err]
           );
         }

@@ -37,6 +37,11 @@ angular.module('app.communication').constant(
       _LIST_COMPLETE_ : '_LIST_COMPLETE_',
       _LIST_FAIL_ : '_LIST_FAIL_',
 
+      _DELETE_ : '_DELETE_',
+      _DELETE_START_ : '_DELETE_START_',
+      _DELETE_COMPLETE_ : '_DELETE_COMPLETE_',
+      _DELETE_FAIL_ : '_DELETE_FAIL_',
+
       _GET_ : '_GET_',
       _GET_START_ : '_GET_START_',
       _GET_COMPLETE_ : '_GET_COMPLETE_',

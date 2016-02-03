@@ -217,16 +217,19 @@ app.post('/api/chat/room', function (req, res) {
               return res.status(400).send(response);
             }
 
-            var room = new Room({
+            var newRoom = new Room({
               name: json.room.name,
               description: json.room.description
             });
 
-            room.save(function (err) {
-              if (err) {
-                throw new "Save Failed";
-              }
-            });
+            if (json.room.name && json.room.description) {
+              newRoom.save(function (err) {
+                if (err) {
+                  console.log(err);
+                  throw new "Save Failed";
+                }
+              });
+            }
 
             return res.status(200).end();
           });
@@ -341,7 +344,72 @@ app.get('/api/chat/room/:room', function (req, res) {
   }
 });
 
-// @todo DELETE /api/chat/room/:name
+app.delete('/api/chat/room/:room', function (req, res) {
+  try {
+    if (! req.headers['authorization']) {
+      res.status(403).send();
+    } else {
+      var User = mongoose.model('User');
+      User.findOne({ 'authorization': req.headers['authorization'].trim() }, 'name', function (err, user) {
+        if (err) {
+          return err;
+        }
+
+        if (! user) {
+          return res.status(403).send();
+        }
+
+        if (! req.params.room) {
+            var response = {
+              data : {
+                error : 'Invalid Request',
+                code : '0002'
+              }
+            };
+
+            return res.status(400).send(response);
+        } else {
+          var roomName = req.params.room;
+          var Room = mongoose.model('Room');
+          var Message = mongoose.model('Message');
+
+          Room.findOne({ name : roomName }, 'name description', function (err, room) {
+            if (err) {
+              return err;
+            }
+
+            if (! room) {
+              var response = {
+                data : {
+                  error : 'Room Does not exists',
+                  code : '0006'
+                }
+              };
+
+              return res.status(400).send(response);
+            } else {
+              Message.find({ roomId: room._id }, 'message', function(err, messages) {
+
+                if (messages.length > 0) {
+                  messages.forEach( function (item) {
+                    item.remove();
+                  });
+                }
+
+                room.remove();
+
+                return res.status(200).end();
+              })
+            }
+          });
+        }
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).end();
+  }
+});
 
 // socket
 io.on('connection', function (socket) {

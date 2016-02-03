@@ -4,7 +4,9 @@ angular.module('app').service(
   'RoomsService',
   /* @ngInject */
   function ($q, MessagingService, CommunicationEvents, AlertingService) {
-    this.create = function (data) {
+    var _self = this;
+
+    _self.create = function (data) {
       var events = {};
 
       events.complete = MessagingService.subscribe(CommunicationEvents.room._CREATE_COMPLETE_, function () {
@@ -22,7 +24,7 @@ angular.module('app').service(
       );
     };
 
-    this.updateList = function () {
+    _self.updateList = function () {
       var deferred = $q.defer();
       var events = {};
 
@@ -39,6 +41,28 @@ angular.module('app').service(
       MessagingService.publish(
         CommunicationEvents.room._LIST_,
         []
+      );
+
+      return deferred.promise;
+    };
+
+    _self.delete = function (roomName) {
+      var deferred = $q.defer();
+      var events = {};
+
+      events.complete = MessagingService.subscribe(CommunicationEvents.room._DELETE_COMPLETE_, function () {
+        deferred.resolve(true);
+        MessagingService.unsubscribe(events.fail);
+      }, true);
+
+      events.fail = MessagingService.subscribe(CommunicationEvents.room._DELETE_FAIL_, function () {
+        deferred.resolve(false);
+        MessagingService.unsubscribe(events.complete);
+      }, true);
+
+      MessagingService.publish(
+        CommunicationEvents.room._DELETE_,
+        [roomName]
       );
 
       return deferred.promise;

@@ -29,6 +29,7 @@ angular.module('app').controller(
         mySocket.emit(
           'send',
           {
+            authorization: _self.user.authorization,
             room: _self.room.name,
             user: _self.user.name,
             message: _self.formObj.message
@@ -42,6 +43,7 @@ angular.module('app').controller(
         mySocket.emit(
           'leave',
           {
+            authorization: _self.user.authorization,
             room: _self.room.name,
             user: _self.user.name
           }
@@ -65,6 +67,7 @@ angular.module('app').controller(
       mySocket.emit(
         'join',
         {
+          authorization: _self.user.authorization,
           room: _self.room.name,
           user: _self.user.name
         }

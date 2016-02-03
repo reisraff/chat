@@ -6,8 +6,6 @@ angular.module('app').controller(
   function ($interval, RoomsService) {
     var _self = this;
 
-    _self.buttonValue = 'Add';
-
     _self.initialFormObj = {
       room : {
         name: null,
@@ -19,13 +17,6 @@ angular.module('app').controller(
 
     _self.rooms = [];
 
-    _self.formSubmit = function () {
-      RoomsService.create(_self.formObj);
-
-      _self.formObj = angular.copy(_self.initialFormObj);
-      _self.buttonValue = 'Add';
-    };
-
     function updateList() {
       RoomsService.updateList().then(function(res) {
         if (!! res) {
@@ -33,6 +24,19 @@ angular.module('app').controller(
         }
       });
     }
+
+    _self.formSubmit = function () {
+      RoomsService.create(_self.formObj);
+
+      _self.formObj = angular.copy(_self.initialFormObj);
+      updateList();
+    };
+
+    _self.delete = function (name) {
+      RoomsService.delete(name).then(function () {
+        updateList();
+      });
+    };
 
     updateList();
 
