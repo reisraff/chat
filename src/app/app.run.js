@@ -14,15 +14,26 @@ angular.module('app').run(
     CommunicationErrors,
     AlertingService
   ) {
-    Restangular.addRequestInterceptor(function (element) {
-      ngProgress.start();
+    Restangular.addRequestInterceptor(function (element, m, url) {
+      if (CommunicationUserService.getUser() && CommunicationUserService.getUser().authorization) {
+        var authorization = CommunicationUserService.getUser().authorization;
+
+        Restangular.setDefaultHeaders({
+          'Authorization': authorization
+        });
+      }
+
+      if (url !== 'chat/rooms' && m !== 'get') {
+        ngProgress.start();
+      }
 
       return element;
     });
 
-    Restangular.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
-      // console.log('LOG: ' + data, operation, what, url, response, deferred);
-      ngProgress.complete();
+    Restangular.addResponseInterceptor(function (data, m, url) {
+      if (url !== 'chat/rooms' && m !== 'get') {
+        ngProgress.complete();
+      }
 
       return data;
     });

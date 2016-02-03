@@ -11,25 +11,16 @@
 
   <div class="list-rooms">
 
-    <div class="room">
-      <p>#Friends</p>
+    <div class="room" ng-repeat="room in rooms.rooms">
+      <div class="room-content">
+        <div class="room-name"># {{ room.name }}</div>
 
-      - This room is in order to chat about everything
-    </div>
-    <div class="room">
-      <p>#Friends</p>
-
-      - This room is in order to chat about everything
-    </div>
-    <div class="room">
-      <p>#Friends</p>
-
-      - This room is in order to chat about everything
-    </div>
-    <div class="room">
-      <p>#Friends</p>
-
-      - This room is in order to chat about everything
+        - {{ room.description }}
+      </div>
+      <div class="room-options">
+        <a href="javascript://">Edit</a>
+        <a href="javascript://">Delete</a>
+      </div>
     </div>
 
   </div>

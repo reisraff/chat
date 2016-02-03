@@ -3,13 +3,18 @@
 angular.module('app.communication').service(
   'CommunicationRoomService',
   /* @ngInject */
-  function ($q, $rootScope, Restangular, MessagingService, CommunicationEvents, Room) {
+  function ($q, $rootScope, Restangular, MessagingService, CommunicationEvents, Room, Collection) {
     var _self = this;
 
     this.initialize = function () {
       MessagingService.subscribe(
         CommunicationEvents.room._CREATE_,
         _self.create
+      );
+
+      MessagingService.subscribe(
+        CommunicationEvents.room._LIST_,
+        _self.list
       );
     };
 
@@ -35,17 +40,42 @@ angular.module('app.communication').service(
       );
     };
 
+    this.list = function () {
+      MessagingService.publish(CommunicationEvents.room._LIST_START_);
+      Restangular.one('chat/room').get().then(
+        function (res) {
+          var collection = new Collection();
+          angular.forEach(res.data, function (value) {
+            var room = new Room();
+            room.setData({ data : value });
+            collection.add(room.getJsonObj());
+          });
+
+          MessagingService.publish(
+            CommunicationEvents.room._LIST_COMPLETE_,
+            [collection]
+          );
+        },
+        function (err) {
+          MessagingService.publish(
+            CommunicationEvents.room._LIST_FAIL_,
+            [err]
+          );
+        }
+      );
+    };
+
   }
 )
 .value(
   'Room',
   function Room () {
     this.name = null;
-    this.email = null;
+    this.description = null;
 
     this.setData = function (data) {
       this.name = data.data.name;
-      this.email = data.data.email;
+      this.description = data.data.description;
     };
 
     this.clearData = function () {
@@ -59,14 +89,14 @@ angular.module('app.communication').service(
     this.getJsonData = function () {
       return JSON.stringify({
         name: this.name,
-        email: this.email
+        description: this.description
       });
     };
 
     this.getJsonObj = function () {
       return {
         name: this.name,
-        email: this.email
+        description: this.description
       };
     };
   }

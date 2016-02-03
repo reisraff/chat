@@ -30,7 +30,12 @@ angular.module('app.communication').constant(
       _CREATE_ : '_CREATE',
       _CREATE_START_ : '_CREATE_START_',
       _CREATE_COMPLETE_ : '_CREATE_COMPLETE_',
-      _CREATE_FAIL_ : '_CREATE_FAIL_'
+      _CREATE_FAIL_ : '_CREATE_FAIL_',
+
+      _LIST_ : '_LIST',
+      _LIST_START_ : '_LIST_START_',
+      _LIST_COMPLETE_ : '_LIST_COMPLETE_',
+      _LIST_FAIL_ : '_LIST_FAIL_'
     }
   }
 );

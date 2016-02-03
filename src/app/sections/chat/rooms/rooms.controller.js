@@ -3,7 +3,7 @@
 angular.module('app').controller(
   'RoomsController',
   /* @ngInject */
-  function (RoomsService) {
+  function ($interval, RoomsService) {
     var _self = this;
 
     _self.buttonValue = 'Add';
@@ -17,11 +17,27 @@ angular.module('app').controller(
 
     _self.formObj = angular.copy(_self.initialFormObj);
 
+    _self.rooms = [];
+
     _self.formSubmit = function () {
       RoomsService.create(_self.formObj);
 
       _self.formObj = angular.copy(_self.initialFormObj);
       _self.buttonValue = 'Add';
     };
+
+    function updateList() {
+      RoomsService.updateList().then(function(res) {
+        if (!! res) {
+          _self.rooms = res;
+        }
+      });
+    }
+
+    updateList();
+
+    $interval(function() {
+      updateList();
+    }, 3000);
   }
 );

@@ -9,6 +9,11 @@
   "author": "Rafael Reis",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.13.4"
+    "body-parser": "^1.14.2",
+    "crypto": "0.0.3",
+    "express": "^4.13.4",
+    "mongodb": "^2.1.4",
+    "mongoose": "^4.4.0",
+    "socket.io": "^1.4.5"
   }
 }

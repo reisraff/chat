@@ -1,8 +1,14 @@
 'use strict'
 
 // Dependences
+var socket = require('socket.io');
 var express = require('express');
+var http = require('http');
+
 var app = express();
+var server = http.createServer(app);
+var io = socket.listen(server);
+var port = 3002;
 
 var bodyParser = require('body-parser')
 
@@ -13,14 +19,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
-// Instance for ODM
-mongoose.connect('mongodb://localhost/chat');
-
-// Require of all entities
-require('./entity/user.js').up(Schema, mongoose);
-require('./entity/room.js').up(Schema, mongoose);
-
 // App configuration
+app.use(express.static(__dirname + '/bower_components'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/json' }));
@@ -39,6 +39,13 @@ app.use(function(req, res, next) {
     next();
   }
 });
+
+// Instance for ODM
+mongoose.connect('mongodb://localhost/chat');
+
+// Require of all entities
+require('./entity/user.js').up(Schema, mongoose);
+require('./entity/room.js').up(Schema, mongoose);
 
 // Routing
 app.get('/', function (req, res) {
@@ -166,48 +173,63 @@ app.post('/api/chat/user/login', function (req, res) {
 
 app.post('/api/chat/room', function (req, res) {
   try {
-    var json = req.body;
-
-    if (! json.room) {
-      var response = {
-        data : {
-          error : 'Invalid Request',
-          code : '0002'
-        }
-      };
-
-      res.status(400).send(response);
+    if (! req.headers['authorization']) {
+      res.status(403).send();
     } else {
-      var Room = mongoose.model('Room');
-
-      Room.findOne({ 'name': json.room.name }, 'name', function (err, room) {
+      var User = mongoose.model('User');
+      User.findOne({ 'authorization': req.headers['authorization'].trim() }, 'name', function (err, user) {
         if (err) {
           return err;
         }
 
-        if (room) {
+        if (! user) {
+          return res.status(403).send();
+        }
+
+        var json = req.body;
+
+        if (! json.room) {
           var response = {
             data : {
-              error : 'Room already exists',
-              code : '0005' // check
+              error : 'Invalid Request',
+              code : '0002'
             }
           };
 
-          return res.status(400).send(response);
+          res.status(400).send(response);
+        } else {
+          var Room = mongoose.model('Room');
+
+          Room.findOne({ 'name': json.room.name }, 'name', function (err, room) {
+            if (err) {
+              return err;
+            }
+
+            if (room) {
+              var response = {
+                data : {
+                  error : 'Room already exists',
+                  code : '0005' // check
+                }
+              };
+
+              return res.status(400).send(response);
+            }
+
+            var room = new Room({
+              name: json.room.name,
+              description: json.room.description
+            });
+
+            room.save(function (err) {
+              if (err) {
+                throw new "Save Failed";
+              }
+            });
+
+            return res.status(200).end();
+          });
         }
-
-        var room = new Room({
-          name: json.room.name,
-          description: json.room.description
-        });
-
-        room.save(function (err) {
-          if (err) {
-            throw new "Save Failed";
-          }
-        });
-
-        return res.status(200).end();
       });
     }
   } catch (err) {
@@ -216,7 +238,47 @@ app.post('/api/chat/room', function (req, res) {
   }
 });
 
+app.get('/api/chat/room', function (req, res) {
+  try {
+    if (! req.headers['authorization']) {
+      res.status(403).send();
+    } else {
+      var User = mongoose.model('User');
+      User.findOne({ 'authorization': req.headers['authorization'].trim() }, 'name', function (err, user) {
+        if (err) {
+          return err;
+        }
 
-app.listen(3002, function () {
-  console.log('Example app listening on port 3002!');
+        if (! user) {
+          return res.status(403).send();
+        }
+
+        var Room = mongoose.model('Room');
+
+        Room.find({}, 'name description', function (err, rooms) {
+          if (err) {
+            return err;
+          }
+
+          var response = {
+            data : rooms
+          };
+
+          return res.status(200).send(response);
+        });
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).end();
+  }
+});
+
+// socket
+io.on('connection', function (socket) {
+
+});
+
+server.listen(port, function () {
+  console.log('Example app listening on port ' + port);
 });

@@ -7,7 +7,33 @@
 }
 
 .list-rooms {
+  height: 400px;
+  overflow-y: scroll;
 }
 
 .room {
+  width: 96%;
+  background: #f7f7f7;
+  padding: 10px 2%;
+  display: table;
+}
+
+.room:hover{
+  background: #e7e7e7;
+  cursor: pointer;
+}
+
+.room-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.room-content {
+  width: 85%;
+  float: left;
+}
+
+.room-options {
+  width: 15%;
+  float: right;
 }
