@@ -6,3 +6,19 @@
   height: 60px;
   border: 1px solid;
 }
+
+.messages {
+  margin-top: 10px;
+  height: 425px;
+  overflow-y: scroll;
+  background: #fafafa;
+}
+
+.conversation .room:hover {
+  background: #f7f7f7;
+  cursor: auto;
+}
+
+.message {
+  padding: 15px 10px;
+}

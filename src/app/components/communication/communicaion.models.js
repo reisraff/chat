@@ -4,7 +4,7 @@ angular.module('app.communication')
 .value(
   'Collection',
   function Collection() {
-    var list = []
+    var list = [];
     var length = 0;
 
     this.add = function (item) {

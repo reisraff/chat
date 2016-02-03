@@ -37,6 +37,17 @@ angular.module('app.messaging').factory(
       return [topic, {method:callback, autoDie:autoDie}];
     };
 
+    var unsubscribe = function (handle) {
+      var t = handle[0];
+      if (cache[t]) {
+        for (var x = 0; x < cache[t].length; x++) {
+          if (cache[t][x].method === handle[1].method) {
+            cache[t].splice(x, 1);
+          }
+        }
+      }
+    };
+
     var publish = function (topic, args) {
       if (! topic) {
         throw Error('Topic publish undefined');
@@ -48,17 +59,6 @@ angular.module('app.messaging').factory(
             unsubscribe([topic, callback]);
           }
         });
-      }
-    };
-
-    var unsubscribe = function (handle) {
-      var t = handle[0];
-      if (cache[t]) {
-        for (var x = 0; x < cache[t].length; x++) {
-          if (cache[t][x].method === handle[1].method) {
-            cache[t].splice(x, 1);
-          }
-        }
       }
     };
 

@@ -13,12 +13,20 @@
     </div>
 
     <div class="room-options" ng-show="conversation.room.name">
-      <a href="javascript://">Leave</a>
+      <a href="javascript://" ng-click="conversation.leave()">Leave</a>
     </div>
   </div>
 
-  <div class="conversation">
+  <div class="messages" scroll-glue>
+    <div class="message" ng-repeat="message in conversation.room.messages track by $index">
+      {{ message }}
+    </div>
+  </div>
 
+  <div class="send">
+    <form name="formSend" ng-submit="conversation.formSubmit()">
+      <input type="text" placeholder="Type your message" ng-model="conversation.formObj.message" required autofocus />
+    </form>
   </div>
 
 </div>

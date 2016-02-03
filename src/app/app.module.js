@@ -7,7 +7,8 @@ angular.module(
     'ui.router',
     'ngProgress',
     'app.communication',
-    'btford.socket-io'
+    'btford.socket-io',
+    'luegg.directives'
   ]
 )
 .factory(

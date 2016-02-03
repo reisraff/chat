@@ -341,8 +341,43 @@ app.get('/api/chat/room/:room', function (req, res) {
   }
 });
 
+// @todo DELETE /api/chat/room/:name
+
 // socket
 io.on('connection', function (socket) {
+
+  socket.on('join', function(data) {
+    socket.broadcast.emit(
+      'join',
+      {
+        room: data.room,
+        message : data.user + ' joined'
+      }
+    );
+  });
+
+  socket.on('leave', function(data) {
+    socket.broadcast.emit(
+      'leave',
+      {
+        room: data.room,
+        message : data.user + ' left'
+      }
+    );
+  });
+
+  socket.on('send', function(data) {
+
+    // @todo Save the message
+
+    socket.broadcast.emit(
+      'receive',
+      {
+        room: data.room,
+        message: data.user + ': ' + data.message
+      }
+    )
+  });
 
 });
 
