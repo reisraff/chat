@@ -17,9 +17,9 @@
         - {{ room.description }}
       </div>
       <div class="room-options">
-        <a href="javascript://" ui-sref="root.home.room({ room: room.name })">Join</a>
-        <!-- <a href="javascript://">Edit</a> -->
-        <a href="javascript://" ng-click="rooms.delete(room.name)">Delete</a>
+        <div><a href="javascript://" ui-sref="root.home.room({ room: room.name })">Join</a></div>
+        <!-- <div><a href="javascript://">Edit</a></div> -->
+        <div><a href="javascript://" ng-click="rooms.delete(room.name)">Delete</a></div>
       </div>
     </div>
 

@@ -5,6 +5,7 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.14.2",
     "crypto": "0.0.3",
+    "gulp-connect": "^2.3.1",
     "mongoose": "^4.3.7"
   },
   "scripts": {
