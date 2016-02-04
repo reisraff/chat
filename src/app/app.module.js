@@ -15,7 +15,7 @@ angular.module(
   'mySocket',
   function (socketFactory) {
     return socketFactory({
-      ioSocket: io('http://localhost:3002')
+      ioSocket: io('http://localhost:3001')
     });
   }
 );

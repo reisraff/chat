@@ -8,7 +8,7 @@ var http = require('http');
 var app = express();
 var server = http.createServer(app);
 var io = socket.listen(server);
-var port = 3002;
+var port = 3001;
 
 var bodyParser = require('body-parser')
 

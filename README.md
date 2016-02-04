@@ -27,3 +27,5 @@ It's a simple web chat realtime.
   `cd src-backend && node index.js`
 
   Then you can open your browser and go to [http://localhost:3000/](http://localhost:3000/)
+
+  If you want to chat with hosts in your internal network make sure that the 3000 and 3001 port was openned
