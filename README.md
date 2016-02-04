@@ -29,4 +29,4 @@ It's a simple realtime web chat.
   Then you can open your browser and go to [http://localhost:3000/](http://localhost:3000/)
 
   If you want to chat with hosts in your internal network make sure that the 3000 and 3001 port was openned,
-  and change the /src/app/config/app.config.js apiBaseUrl for you internal IP.
+  and change the /src/app/config/app.config.js apiBaseUrl, /src/app/app.module.js ioSocket, /src/index.html:31 for you internal IP.
