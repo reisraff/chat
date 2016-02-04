@@ -2,7 +2,7 @@
 
 This project was developed in order to test my skills with the (angularJs, nodeJs with expressJs and mongoDb) tecnologies.
 
-It's a simple web chat realtime.
+It's a simple realtime web chat.
 
 # Dependences
 
