@@ -10,7 +10,7 @@
   /* @ngInject */
   module.config(function(RestangularProvider) {
     var config = {
-      apiBaseUrl: 'http://localhost:3002/api'
+      apiBaseUrl: 'http://localhost:3001/api'
     };
 
     RestangularProvider.setBaseUrl(config.apiBaseUrl);
